@@ -314,12 +314,9 @@ elif [ "$1" = "--phase2" ]; then
   if [ -e /etc/apt/listchanges.conf ]; then
     sed -i 's/frontend=pager/frontend=text/' /etc/apt/listchanges.conf
   fi
+  ## Amended on the assumption that Bookworm and Trixie use the same mechanism
   if [ ! -e /etc/apt/sources.list.d/php.list ]; then
-    if [ "${OSVER}" != "bookworm" ]; then
-      wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add - &> /dev/null
-    else
-      wget -qO- https://packages.sury.org/php/apt.gpg | tee /etc/apt/trusted.gpg.d/apt.gpg > /dev/null
-    fi
+    wget -qO- https://packages.sury.org/php/apt.gpg | tee /etc/apt/trusted.gpg.d/apt.gpg > /dev/null
     echo "deb https://packages.sury.org/php/ ${OSVER} main" > /etc/apt/sources.list.d/php.list
   fi
   apt-get -y update
@@ -442,7 +439,8 @@ elif [ "$1" = "--phase3" ]; then
   elif [ "${VER_FREEPBX}" = "16.0" ]; then
     apt-get -y install php7.4 php7.4-curl php7.4-cli php7.4-mysql php7.4-gd php7.4-mbstring php7.4-xml php7.4-sqlite3
   elif [ "${VER_FREEPBX}" = "17.0" ]; then
-    apt-get -y install php8.2 php8.2-curl php8.2-cli php8.2-mysql php8.2-gd php8.2-mbstring php8.2-xml php8.2-sqlite3
+    # Updated to install php 8.4
+    apt-get -y install php8.4 php8.4-curl php8.4-cli php8.4-mysql php8.4-gd php8.4-mbstring php8.4-xml php8.4-sqlite3
   fi
   mv /etc/apt/preferences.d/php-common.pref /root &> /dev/null
   apt-get -y install build-essential wget dnsutils openssh-server apache2 bison flex curl sox cmake gdisk npm\
