@@ -453,7 +453,8 @@ elif [ "$1" = "--phase3" ]; then
   cd /usr/src
   git clone https://github.com/MariaDB/mariadb-connector-odbc.git
   cd mariadb-connector-odbc
-  git checkout tags/3.2.2
+  # Update to the latest release
+  git checkout tags/3.2.10
   mkdir build
   cd build
   if [ "$(uname -m)" = "aarch64" ]; then
